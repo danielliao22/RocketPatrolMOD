@@ -5,7 +5,15 @@ let config = {
     scene: [ Menu, Play ], //Order matters
 };
 
+
+
 let game = new Phaser.Game(config);
+
+// define game settings
+game.settings = {
+    spaceshipSpeed: 3,
+    gameTimer: 60000    
+}
 
 // reserve some keyboard vars
 let keyF, keyLEFT, keyRIGHT;
