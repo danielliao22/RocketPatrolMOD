@@ -6,23 +6,37 @@ class Rocket extends Phaser.GameObjects.Sprite {
         
         scene.add.existing(this); // add object to existing, displayList, updateList
         this.isFiring = false;    // track rocket's firing status
-        this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
+        this.sfxRocket = scene.sound.add('sfx_rocket', {volume: 0.3}); // add rocket sfx
+        this.pointer = scene.input.activePointer;
+        // Setup firing by right clicking
+        // Phaser example: https://github.com/photonstorm/phaser3-examples/blob/master/public/src/input/mouse/right%20mouse%20button.js
+        scene.input.on('pointerdown', function (pointer) {
+            if (pointer.leftButtonDown() && !this.isFiring) {
+                if (pointer.getDuration() > 500) {
+                    this.isFiring = true;
+                    this.sfxRocket.play();  // play sfx
+                }
+                else {
+                    this.isFiring = true;
+                    this.sfxRocket.play();  // play sfx
+                }
+            }
+        }, this);
     }
 
     update() {
         // left/right movement
         if(!this.isFiring){
-            if(keyLEFT.isDown && this.x >= 47) {
-                this.x -= 2;
+            let tmpX = this.pointer.worldX;
+            if(tmpX < 47) {
+                this.x = 47;
             } 
-            else if(keyRIGHT.isDown && this.x <= 578){
-                this.x += 2;
+            else if(tmpX > 578){
+                this.x = 578;
             }
-        }
-        // fire button (NOT spacebar)
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
-            this.isFiring = true;
-            this.sfxRocket.play();  // play sfx
+            else {
+                this.x = tmpX;
+            }
         }
         // if fired , move up
         if(this.isFiring && this.y >= 108){

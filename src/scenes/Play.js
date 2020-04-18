@@ -18,22 +18,11 @@ class Play extends Phaser.Scene {
     }
 
     create(){
-       // console.log(this);
-        //this.add.text(20, 20, "Rocket Patrol Play");
-
-        // palce tile sprite
+        // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0.0);
 
         // place game UI
         this.gameUI = this.add.sprite(0, 0, 'gameUI').setOrigin(0.0);
-
-        // //white rectangle bnorders
-        // this.add.rectangle(5,5,630,32, 0xFFFFFF).setOrigin(0, 0);
-        // this.add.rectangle(5,443,630,32, 0xFFFFFF).setOrigin(0, 0);
-        // this.add.rectangle(5,5,32,455, 0xFFFFFF).setOrigin(0, 0);
-        // this.add.rectangle(603,5,32,455, 0xFFFFFF).setOrigin(0, 0);
-        // //green UI background
-        // this.add.rectangle(37,42,566,64, 0x00FF00).setOrigin(0, 0);
 
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, 435, 'rocket').setScale(0.5, 0.5).setOrigin(0, 0);
@@ -59,10 +48,14 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         this.scoreLeft = this.add.bitmapText(25, 65, 'font', this.p1Score, 20).setRightAlign(); 
 
+        //time
+        this.tmpClock = new Phaser.Time.Clock(this);
+        this.remainingTime = 0;
+        this.timeRight = this.add.bitmapText(25, 100, 'font', this.remainingTime, 20).setLeftAlign(); 
+
 
         // game over flag
         this.gameOver = false;
-      
 
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -76,6 +69,7 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+        
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
@@ -87,6 +81,7 @@ class Play extends Phaser.Scene {
     }
 
     update(){
+        console.log(this.tmpClock.number);
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.restart(this.p1Score);
@@ -97,7 +92,7 @@ class Play extends Phaser.Scene {
         }
 
         // scroll starfield
-        this.starfield.tilePositionX -= 4;
+        this.starfield.tilePositionX -= 3;
 
         if (!this.gameOver) { 
             //update rocket
@@ -150,6 +145,6 @@ class Play extends Phaser.Scene {
          // score increment and repaint
          this.p1Score += ship.points;
          this.scoreLeft.text = this.p1Score;   
-         this.sound.play('sfx_explosion');
+         this.sound.play('sfx_explosion', {volume: 0.3});
     }
 }
