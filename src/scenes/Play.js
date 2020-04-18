@@ -12,6 +12,9 @@ class Play extends Phaser.Scene {
         this.load.image('gameUI', './assets/gameUI.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+
+        // load font 
+        this.load.bitmapFont('font', './assets/font.png', './assets/font.fnt');
     }
 
     create(){
@@ -54,21 +57,8 @@ class Play extends Phaser.Scene {
 
         //score
         this.p1Score = 0;
+        this.scoreLeft = this.add.bitmapText(25, 65, 'font', this.p1Score, 20).setRightAlign(); 
 
-        // score display
-        let scoreConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 100
-        }
-        this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
 
         // game over flag
         this.gameOver = false;
