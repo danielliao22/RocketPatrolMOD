@@ -34,9 +34,8 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0,0);
 
         // define keyboard keys
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // animation config
         this.anims.create({
@@ -74,11 +73,11 @@ class Play extends Phaser.Scene {
         }
 
         // check key input for restart
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.scene.restart(this.p1Score);
         }
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
             this.scene.start("menuScene");
         }
 
